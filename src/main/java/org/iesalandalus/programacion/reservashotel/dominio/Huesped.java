@@ -68,15 +68,6 @@ public class Huesped {
        else{
            this.nombre = formateaNombre(nombre);
        }
-
-
-        /*try{
-            this.nombre = formateaNombre(nombre);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }*/
-
-
     }
 
     private String formateaNombre(String nombre){
@@ -98,7 +89,7 @@ public class Huesped {
                     nombreFormateado = Character.toUpperCase(palabra.charAt(0))+palabra.substring(1).toLowerCase();
                     inicioNombre = false;
                 } else {
-                    nombreFormateado = nombreFormateado + " "+Character.toUpperCase(palabra.charAt(0))+palabra.substring(1).toLowerCase();
+                    nombreFormateado = nombreFormateado+" "+Character.toUpperCase(palabra.charAt(0))+palabra.substring(1).toLowerCase();
                 }
             }
         }
