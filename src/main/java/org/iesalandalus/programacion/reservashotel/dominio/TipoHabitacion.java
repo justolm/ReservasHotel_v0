@@ -6,8 +6,8 @@ public enum TipoHabitacion {
     DOBLE("DOBLE",2),
     TRIPLE("TRIPLE",3);
 
-    public final String cadenaAMostrar;
-    public final int numeroMaximoPersonas;
+    private final String cadenaAMostrar;
+    private final int numeroMaximoPersonas;
 
     @Override
     public String toString() {
