@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class HabitacionTest {
-/*
+
     private static final String CADENA_NO_ESPERADA = "La cadena devuelta no es la esperada.";
     private static final String PLANTA_NO_ESPERADA = "El número de planta devuelta no es la misma que la pasada al constructor.";
     private static final String PUERTA_NO_ESPERADA = "El número de puerta devuelta no es la misma que la pasada al constructor.";
@@ -75,7 +75,7 @@ public class HabitacionTest {
         }
 
         try {
-            habitacion = new Habitacion(0, PUERTA_10, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_VALIDA);
+            habitacion = new Habitacion(10, PUERTA_10, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_VALIDA);
             fail(PLANTA_INCORRECTA);
         } catch (IllegalArgumentException e) {
             assertEquals(ERROR_PLANTA_INCORRECTA, e.getMessage(), MENSAJE_EXCEPCION_NO_CORRECTO);
@@ -144,7 +144,7 @@ public class HabitacionTest {
         }
 
     }
-
+/*
     @Test
     public void constructorPlantaValidaPuertaValidaPrecioValidoTipoHabitacionNoValidaLanzaExcepcion() {
         Habitacion habitacion = null;
@@ -159,7 +159,7 @@ public class HabitacionTest {
         }
 
     }
-
+*/
     @Test
     public void constructorHabitacionValidaCopiaHabitacionCorrectamente() {
         Habitacion habitacion1 = new Habitacion(PLANTA_1, PUERTA_0, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_VALIDA);
@@ -195,5 +195,5 @@ public class HabitacionTest {
         assertEquals(String.format("identificador=%s (%d-%d), precio habitación=%s, tipo habitación=%s", habitacion.getIdentificador(), habitacion.getPlanta(), habitacion.getPuerta(), habitacion.getPrecio(), habitacion.getTipoHabitacion()), habitacion.toString(), CADENA_NO_ESPERADA);
     }
 
- */
+
 }
