@@ -73,9 +73,9 @@ public class Huesped {
     private String formateaNombre(String nombre){
 
         //Eliminamos los espacios dobles
-        String regex = "\\s+";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(nombre);
+        String espacioMultiple = "\\s+"; // patrón de 2 o más espacios en blanco
+        String espacioUnico = " ";
+        nombre = nombre.replaceAll(espacioMultiple, espacioUnico);
 
         // Corregimos las mayúsculas y minúsculas
         String nombreFormateado = "";
