@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReservaTest {
-/*
+
     private static final String ERROR_EXCEPCION = "Debería haber saltado la excepción.";
     private static final String ERROR_NO_EXCEPCION = "No debería haber saltado la excepción.";
     private static final String NOMBRE_ARDR = "Andrés Rubio Del Río";
@@ -68,7 +68,7 @@ public class ReservaTest {
     private static final String ERROR_CHECKOUT_POSTERIOR="ERROR: El checkout de una reserva puede ser como máximo 12 horas después de la fecha de fin de la reserva.";
     private static final String MENSAJE_PRECIO_NO_CORRECTO="El precio calculado no es correcto.";
     private static final String ERROR_NUMERO_PERSONAS_RESERVA="ERROR: El número de personas de una reserva no puede ser menor o igual a 0.";
-    private static final String ERROR_NUMERO_MAXIMO_PERSONAS_RESERVA="ERROR: El número de personas de una reserva no puede superar al máximo de personas establacidas para el tipo de habitación reservada.";
+    private static final String ERROR_NUMERO_MAXIMO_PERSONAS_RESERVA="ERROR: El número de personas de una reserva no puede superar al máximo de personas establecidas para el tipo de habitación reservada.";
 
     @Test
     public void constructorParametrosValidoCreaReservaCorrectamenteTest() {
@@ -390,5 +390,5 @@ public class ReservaTest {
     }
 
 
- */
+
 }
