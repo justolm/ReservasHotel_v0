@@ -1,13 +1,11 @@
 package org.iesalandalus.programacion.reservashotel.dominio;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Reserva {

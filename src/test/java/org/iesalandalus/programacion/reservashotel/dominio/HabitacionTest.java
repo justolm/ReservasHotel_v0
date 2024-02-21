@@ -75,7 +75,7 @@ public class HabitacionTest {
         }
 
         try {
-            habitacion = new Habitacion(10, PUERTA_10, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_VALIDA);
+            habitacion = new Habitacion(0, PUERTA_10, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_VALIDA);
             fail(PLANTA_INCORRECTA);
         } catch (IllegalArgumentException e) {
             assertEquals(ERROR_PLANTA_INCORRECTA, e.getMessage(), MENSAJE_EXCEPCION_NO_CORRECTO);
