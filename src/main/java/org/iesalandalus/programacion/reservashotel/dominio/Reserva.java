@@ -69,6 +69,9 @@ public class Reserva {
     }
 
     public Habitacion getHabitacion() {
+        if (habitacion==null){
+            throw new NullPointerException("Habitación nula.");
+        }
         return habitacion;
     }
 

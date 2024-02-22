@@ -43,8 +43,8 @@ public class Habitaciones {
             throw new NullPointerException("ERROR:Colección vacía5");
         Habitacion[] copiaProfundaHabitacionesFiltro = new Habitacion[getCapacidad()];
         for (int i = 0; i < tamano; i++) {
-            if (copiaProfundaHabitacionesFiltro[i].getTipoHabitacion().equals(tipoHabitacion)){
-                copiaProfundaHabitacionesFiltro[i] = new Habitacion(coleccionHabitaciones[j]);
+            if (coleccionHabitaciones[i].getTipoHabitacion().equals(tipoHabitacion)){
+                copiaProfundaHabitacionesFiltro[j] = new Habitacion(coleccionHabitaciones[i]);
                 j++;
             }
         }
@@ -61,7 +61,8 @@ public class Habitaciones {
     }
 
     public int getCapacidad() {
-        return coleccionHabitaciones.length;
+        capacidad=coleccionHabitaciones.length;
+        return  capacidad;
     }
     public void insertar (Habitacion habitacion) throws OperationNotSupportedException {
         if (coleccionHabitaciones==null)

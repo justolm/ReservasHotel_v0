@@ -47,7 +47,8 @@ public class Huespedes {
     public int getCapacidad() {
         if (coleccionHuespedes==null)
             throw new NullPointerException("ERROR:Colección vacía2");
-        return coleccionHuespedes.length;
+        capacidad=coleccionHuespedes.length;
+        return capacidad;
     }
     public void insertar(Huesped huesped) throws OperationNotSupportedException {
         if (coleccionHuespedes==null)

@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
 
 
+import org.iesalandalus.programacion.reservashotel.dominio.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReservasTest {
-/*
+
     private static Huesped huesped1;
     private static Huesped huesped2;
     private static Huesped huesped3;
@@ -83,7 +84,7 @@ public class ReservasTest {
     private static final String ERROR_RESERVAS_TIPO_HABITACION_NULA="ERROR: No se pueden buscar reservas de un tipo de habitación nula.";
     private static final String RESERVAS_HABITACION_NULA="Debería haber saltado una excepción indicando que no se puede operar con una habitación nula.";
     private static final String ERROR_RESERVAS_HABITACION_NULA="ERROR: No se pueden buscar reservas de una habitación nula.";
-
+    public static int CAPACIDAD=3;
 
     @BeforeAll
     public static void asignarValoresAtributos() {
@@ -104,9 +105,9 @@ public class ReservasTest {
 
     @Test
     public void constructorCapacidadValidaCreaReservasCorrectamente() {
-        Reservas reservas = new Reservas(MainApp.CAPACIDAD);
+        Reservas reservas = new Reservas(CAPACIDAD);//MainApp.CAPACIDAD
         assertNotEquals(null, reservas, RESERVAS_NO_CREADAS);
-        assertEquals(MainApp.CAPACIDAD, reservas.getCapacidad(), RESERVAS_NO_CREADAS);
+        assertEquals(CAPACIDAD, reservas.getCapacidad(), RESERVAS_NO_CREADAS);//MainApp.CAPACIDAD
         assertEquals(0, reservas.getTamano(), TAMANO_NO_ESPERADO);
     }
 
@@ -543,5 +544,5 @@ public class ReservasTest {
         }
     }
 
- */
+
 }
