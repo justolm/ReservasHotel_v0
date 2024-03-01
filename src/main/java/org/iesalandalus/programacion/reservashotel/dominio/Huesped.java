@@ -177,6 +177,9 @@ public class Huesped {
     }
 
     private void setFechaNacimiento(LocalDate fechaNacimiento) {
+        if (fechaNacimiento==null){
+            throw new NullPointerException("ERROR: La fecha de nacimiento no puede estar vacía.");
+        }
         if (fechaNacimiento.isBefore(LocalDate.now())){
             this.fechaNacimiento = fechaNacimiento;
         }
@@ -211,7 +214,7 @@ public class Huesped {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, telefono, correo, dni, fechaNacimiento);
+        return Objects.hash(dni);
     }
 
     @Override

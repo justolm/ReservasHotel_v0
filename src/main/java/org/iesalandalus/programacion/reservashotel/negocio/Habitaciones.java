@@ -34,6 +34,9 @@ public class Habitaciones {
         return copiaProfundaHabitaciones;
     }
     public Habitacion[] get(TipoHabitacion tipoHabitacion){
+        if (tipoHabitacion==null){
+            throw new NullPointerException("ERROR: El tipo de habitación no puede estar vacío.");
+        }
         tamano=getTamano();
         int j=0;
         if (tamano<1){
@@ -80,6 +83,9 @@ public class Habitaciones {
         }
     }
     private int buscarIndice(Habitacion habitacion){
+        if (habitacion==null){
+            throw new NullPointerException("ERROR: No se puede buscar sin indicar una habitación.");
+        }
         for(int i = 0; i < getTamano(); i++){
             if (coleccionHabitaciones[i]==null){
                 return getCapacidad()+1;

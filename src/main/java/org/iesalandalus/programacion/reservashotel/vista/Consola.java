@@ -13,14 +13,16 @@ public class Consola {
     public void mostrarMenu(){
         System.out.println(Opcion.values().toString());
     }
-    public int elegirOpcion(){// Opcion elegirOpcion(){
+    public Opcion elegirOpcion(){
         Opcion elegido;
-        int elegidoInt;
+        int elegidoInt, numOpciones;
+        numOpciones = Opcion.values().length-1;
         do{
-            System.out.print("Elige la opción deseada (0-12): ");
+            System.out.print("Elige la opción deseada (0 - "+numOpciones+"): ");
             elegidoInt=Entrada.entero();
-        }while (elegidoInt<0 || elegidoInt>12);
-        return elegidoInt;
+        }while (elegidoInt<0 || elegidoInt>numOpciones);
+        elegido=Opcion.valueOf(String.valueOf(elegidoInt));
+        return elegido;
     }
     public Huesped leerHuesped(){
         String nombre, dni, correo, telefono;

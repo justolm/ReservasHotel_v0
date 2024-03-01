@@ -30,6 +30,7 @@ public class Habitacion {
             setPuerta(puerta);
             setPrecio(precio);
             setIdentificador();
+            setTipoHabitacion(TipoHabitacion.SIMPLE);
         }
     }
 

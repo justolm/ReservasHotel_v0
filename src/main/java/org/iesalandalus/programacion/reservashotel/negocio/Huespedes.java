@@ -7,7 +7,7 @@ import javax.naming.OperationNotSupportedException;
 public class Huespedes {
     private int capacidad;
     private int tamano;
-    private static Huesped[] coleccionHuespedes;
+    private Huesped[] coleccionHuespedes;
     //private static List<Huespedes> huespedes;
 
 
@@ -104,7 +104,7 @@ public class Huespedes {
         if (coleccionHuespedes==null)
             throw new NullPointerException("ERROR:Colección vacía");
         for(int i = 0; i < getTamano(); i++){
-            if (coleccionHuespedes[i].equals(huesped)){//huesped.getDni().equals(coleccionHuespedes[i].getDni())){ //coleccionHuespedes[i].equals(huesped)
+            if (coleccionHuespedes[i].equals(huesped)){//huesped.getDni().equals(coleccionHuespedes[i].getDni())){
                 return new Huesped(huesped);
             }
         }

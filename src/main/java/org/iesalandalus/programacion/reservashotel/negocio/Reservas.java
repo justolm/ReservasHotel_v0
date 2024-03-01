@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Reservas {
     private int capacidad;
     private int tamano;
-    private static Reserva[] coleccionReservas;
+    private Reserva[] coleccionReservas;
     public Reservas (int capacidad){
         if (capacidad<1)
             throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
@@ -25,7 +25,7 @@ public class Reservas {
         tamano=getTamano();
         Reserva[] copiaProfundaReservas=new Reserva[getCapacidad()];
         for (int i=0 ; i<tamano ; i++){
-            copiaProfundaReservas[i]=coleccionReservas[i];
+            copiaProfundaReservas[i]=new Reserva(coleccionReservas[i]);
         }
         return copiaProfundaReservas;
     }
@@ -59,6 +59,9 @@ public class Reservas {
     }
 
     private int buscarIndice (Reserva reserva){
+        if (reserva==null){
+            throw new NullPointerException("ERROR: No se puede buscar sin indicar una reserva.");
+        }
         for (int i=0 ; i < getTamano() ; i++){
             if (coleccionReservas[i]==null){
                 return getCapacidad()+1;
@@ -88,6 +91,9 @@ public class Reservas {
         return true;
     }
     public Reserva buscar (Reserva reserva){
+        if (reserva==null){
+            throw new NullPointerException("ERROR: No se puede buscar sin indicar una reserva.");
+        }
         for (int i=0 ; i < getTamano() ; i++){
             if (coleccionReservas[i].equals(reserva)){
                 return new Reserva(reserva);
