@@ -1,9 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.vista;
 
-import org.iesalandalus.programacion.reservashotel.dominio.Habitacion;
-import org.iesalandalus.programacion.reservashotel.dominio.Huesped;
-import org.iesalandalus.programacion.reservashotel.dominio.TipoHabitacion;
-import org.iesalandalus.programacion.reservashotel.negocio.Huespedes;
+import org.iesalandalus.programacion.reservashotel.dominio.*;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import java.time.LocalDate;
@@ -44,7 +41,10 @@ public class Consola {
         String dni;
         System.out.println("Introduzca el DNI del huésped: ");
         dni=Entrada.cadena();
-        return new Huesped(leerHuesped()); //no es lo que tiene que hacer realmente.
+        if (dni==null){
+            throw new NullPointerException("ERROR: No se puede buscar un DNI vacío.");
+        }
+        return new Huesped("nombre",dni,"correo","950000000", LocalDate.of(2000,1,1));
     }
     public LocalDate leerFecha(String mensaje) {
         LocalDate fecha;
@@ -76,15 +76,60 @@ public class Consola {
         return habitacion;
     }
     public Habitacion leerHabitacionPorIdentificador(){
-        int planta=0, puerta=0;
+        int planta, puerta;
         String identificador;
         Habitacion habitacion=null;
         System.out.println("Introduzca los datos de la habitación. ");
-        System.out.print("Planta (1-3): ");
+        System.out.print("Planta (" + Habitacion.MIN_NUMERO_PLANTA + " - " + Habitacion.MAX_NUMERO_PLANTA + "): ");
         planta=Entrada.entero();
-        System.out.print("Puerta (0-14): ");
+        if (planta<Habitacion.MIN_NUMERO_PLANTA || planta>Habitacion.MAX_NUMERO_PLANTA){
+            throw new IllegalArgumentException("ERROR: El número de planta es incorrecto.");
+        }
+        System.out.print("Puerta (" + Habitacion.MIN_NUMERO_PUERTA + " - " + Habitacion.MAX_NUMERO_PUERTA + "): ");
         puerta=Entrada.entero();
+        if (puerta<Habitacion.MIN_NUMERO_PUERTA || puerta>Habitacion.MAX_NUMERO_PUERTA){
+            throw new IllegalArgumentException("ERROR: El número de puerta es incorrecto.");
+        }
         identificador=planta+""+puerta;
+        habitacion = new Habitacion(planta,puerta,40,TipoHabitacion.SIMPLE);
         return habitacion;
+    }
+    public TipoHabitacion leerTipoHabitacion(){
+        TipoHabitacion tipoHabitacion;
+        System.out.print("Elija el tipo de habitación: ");
+        System.out.println(TipoHabitacion.values().toString());
+        tipoHabitacion=TipoHabitacion.valueOf(Entrada.cadena());
+        return tipoHabitacion;
+    }
+    public Regimen leerRegimen(){
+        Regimen regimen;
+        System.out.println("Elija el régimen deseado: ");
+        System.out.println(Regimen.values().toString());
+        regimen=Regimen.valueOf(Entrada.cadena());
+        return regimen;
+    }
+    public Reserva leerReserva(){
+        Reserva reserva;
+        Huesped huesped;
+        Habitacion habitacion;
+        Regimen regimen;
+        TipoHabitacion tipoHabitacion;
+        LocalDate fechaInicioReserva, fechaFinReserva;
+        int numeroPersonas,maximoPersonas=5;
+        huesped=new Huesped(leerHuesped());
+        habitacion=new Habitacion(leerHabitacion());
+        regimen= leerRegimen();
+        System.out.print("Introduzca la fecha de inicio de reserva (dd/MM/aa): ");
+        fechaInicioReserva=leerFecha(Entrada.cadena());
+        System.out.print("Introduzca la fecha de fin de reserva (dd/MM/aa): ");
+        fechaFinReserva=leerFecha(Entrada.cadena());
+        tipoHabitacion= habitacion.getTipoHabitacion();
+        maximoPersonas= tipoHabitacion.getNumeroMaximoPersonas();
+        do{
+            System.out.print("Introduzca el número de personas: ");
+            numeroPersonas=Entrada.entero();
+        }while (numeroPersonas<0 || numeroPersonas>maximoPersonas);
+        reserva=new Reserva(huesped,habitacion,regimen,fechaInicioReserva,fechaFinReserva,numeroPersonas);
+        return reserva;
     }
 }
