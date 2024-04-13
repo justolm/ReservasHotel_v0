@@ -23,7 +23,7 @@ public class Reserva {
     private double precio;
     private int numeroPersonas;
 
-    public Reserva(Huesped huesped, Habitacion habitacion, Regimen regimen, LocalDate fechaInicioReserva, LocalDate fechaFinReserva, int numeroPersonas) {
+    public Reserva(Huesped huesped, Habitacion habitacion, Regimen regimen, LocalDate fechaInicioReserva, LocalDate fechaFinReserva, int numeroPersonas) throws NullPointerException, IllegalArgumentException {
         if (huesped==null)
             throw new NullPointerException("ERROR: El huésped de una reserva no puede ser nulo.");
         if(habitacion==null)
@@ -46,7 +46,7 @@ public class Reserva {
         precio=getPrecio();
     }
 
-    public Reserva(Reserva reserva) {
+    public Reserva(Reserva reserva) throws NullPointerException {
         if (reserva==null)
             throw new NullPointerException("ERROR: No es posible copiar una reserva nula.");
         this.huesped=reserva.huesped;
@@ -68,21 +68,21 @@ public class Reserva {
         return new Huesped(huesped);
     }
 
-    public void setHuesped(Huesped huesped) {
+    public void setHuesped(Huesped huesped) throws NullPointerException {
         if(huesped==null){
             throw new NullPointerException("ERROR: No se puede establecer un huésped nulo.");
         }
         this.huesped = new Huesped(huesped);
     }
 
-    public Habitacion getHabitacion() {
+    public Habitacion getHabitacion() throws NullPointerException {
         if (habitacion==null){
             throw new NullPointerException("ERROR: No se puede seleccionar una habitación nula.");
         }
         return new Habitacion(habitacion);
     }
 
-    public void setHabitacion(Habitacion habitacion) {
+    public void setHabitacion(Habitacion habitacion) throws NullPointerException {
         if (habitacion==null){
             throw new NullPointerException("ERROR: No se puede establecer una habitación nula.");
         }
@@ -93,7 +93,7 @@ public class Reserva {
         return regimen;
     }
 
-    public void setRegimen(Regimen regimen) {
+    public void setRegimen(Regimen regimen) throws NullPointerException {
         if (regimen==null){
             throw new NullPointerException("Régimen nulo.");
         }
@@ -104,7 +104,7 @@ public class Reserva {
         return fechaInicioReserva;
     }
 
-    public void setFechaInicioReserva(LocalDate fechaInicioReserva) {
+    public void setFechaInicioReserva(LocalDate fechaInicioReserva) throws NullPointerException, IllegalArgumentException {
         if (fechaInicioReserva==null)
             throw new NullPointerException("ERROR: La fecha de inicio de una reserva no puede ser nula.");
         if (fechaInicioReserva.isBefore(LocalDate.now())){
@@ -120,7 +120,7 @@ public class Reserva {
         return fechaFinReserva;
     }
 
-    public void setFechaFinReserva(LocalDate fechaFinReserva) {
+    public void setFechaFinReserva(LocalDate fechaFinReserva) throws NullPointerException,  IllegalArgumentException {
         if (fechaFinReserva==null)
             throw new NullPointerException("ERROR: La fecha de fin de una reserva no puede ser nula.");
         if (fechaFinReserva.isBefore(fechaInicioReserva)||fechaFinReserva.isEqual(fechaInicioReserva)){ // se podría haber puesto '!isAfter'
@@ -133,7 +133,7 @@ public class Reserva {
         return checkIn;
     }
 
-    public void setCheckIn(LocalDateTime checkIn) {
+    public void setCheckIn(LocalDateTime checkIn) throws NullPointerException, IllegalArgumentException {
         if (checkIn==null)
             throw new NullPointerException("ERROR: El checkin de una reserva no puede ser nulo.");
         fechaInicioReserva=getFechaInicioReserva();
@@ -147,7 +147,7 @@ public class Reserva {
         return checkOut;
     }
 
-    public void setCheckOut(LocalDateTime checkOut) {
+    public void setCheckOut(LocalDateTime checkOut) throws NullPointerException, IllegalArgumentException {
         if (checkOut==null){
             throw new NullPointerException("ERROR: El checkout de una reserva no puede ser nulo.");
         }
@@ -155,7 +155,7 @@ public class Reserva {
             throw new NullPointerException("ERROR: No se puede establecer el CheckOut sin un CheckIn previo.");
         }
         if (checkOut.isBefore(checkIn)){
-            throw new IllegalArgumentException("ERROR: El checkout de una reserva no puede ser anterior al checkIn.");
+            throw new IllegalArgumentException("ERROR: El checkout de una reserva no puede ser anterior al checkin.");
         }
         if (checkOut.isAfter(fechaFinReserva.atStartOfDay().plusHours(MAX_HORAS_POSTERIOR_CHECKOUT))){
             throw new IllegalArgumentException("ERROR: El checkout de una reserva puede ser como máximo 12 horas después de la fecha de fin de la reserva.");
@@ -179,7 +179,7 @@ public class Reserva {
         return numeroPersonas;
     }
 
-    public void setNumeroPersonas(int numeroPersonas) {
+    public void setNumeroPersonas(int numeroPersonas) throws IllegalArgumentException {
         int maximoPersonas = getHabitacion().getTipoHabitacion().getNumeroMaximoPersonas();
         if (numeroPersonas<1){
             throw new IllegalArgumentException("ERROR: El número de personas de una reserva no puede ser menor o igual a 0.");
@@ -207,7 +207,7 @@ public class Reserva {
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern(FORMATO_FECHA_RESERVA);
         String fechaIniRes = formatoFecha.format(fechaInicioReserva);
         String fechaFinRes = formatoFecha.format(fechaFinReserva);
-        String entrada="", salida ="";
+        String entrada, salida;
         DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern(FORMATO_FECHA_HORA_RESERVA);
         if (checkIn==null)
             entrada = "No registrado";

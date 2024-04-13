@@ -1,4 +1,5 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
+import org.iesalandalus.programacion.reservashotel.MainApp;
 import org.iesalandalus.programacion.reservashotel.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.dominio.TipoHabitacion;
 
@@ -49,7 +50,6 @@ public class HabitacionesTest {
     private static final TipoHabitacion TIPO_HABITACION_DOBLE_VALIDA=TipoHabitacion.DOBLE;
     private static final TipoHabitacion TIPO_HABITACION_SIMPLE_VALIDA=TipoHabitacion.SIMPLE;
     private static final TipoHabitacion TIPO_HABITACION_SUITE_VALIDA=TipoHabitacion.SUITE;
-    public static int CAPACIDAD=3;
     @BeforeAll
     public static void asignarValoresAtributos() {
         habitacion1 = new Habitacion(PLANTA_1, PUERTA_0, PRECIO_HABITACION_VALIDO, TIPO_HABITACION_SIMPLE_VALIDA);
@@ -61,9 +61,9 @@ public class HabitacionesTest {
 
     @Test
     public void constructorCapacidadValidaCreaHabitacionCorrectamente() {
-        Habitaciones habitaciones = new Habitaciones(CAPACIDAD);//MainApp.CAPACIDAD
+        Habitaciones habitaciones = new Habitaciones(MainApp.CAPACIDAD);
         assertNotEquals(null, habitaciones, HABITACIONES_NO_CREADAS);
-        assertEquals(CAPACIDAD, habitaciones.getCapacidad(), HABITACIONES_NO_CREADAS);//MainApp.CAPACIDAD
+        assertEquals(MainApp.CAPACIDAD, habitaciones.getCapacidad(), HABITACIONES_NO_CREADAS);
         assertEquals(0, habitaciones.getTamano(), TAMANO_NO_ESPERADO);
     }
 

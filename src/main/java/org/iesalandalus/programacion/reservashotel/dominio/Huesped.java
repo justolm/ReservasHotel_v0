@@ -16,10 +16,10 @@ public class Huesped {
     //Array para la validación del DNI
     private static final List<Character> ER_DNI = Arrays.asList('T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E');
     private static final String ER_TELEFONO = "[0-9]{9}";
-    private static final String ER_CORREO = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    private static final String ER_CORREO = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
     public static final String FORMATO_FECHA = "%02d/%02d/%d";
 
-    public Huesped(String nombre, String dni, String correo, String telefono, LocalDate fechaNacimiento) throws NullPointerException {
+    public Huesped(String nombre, String dni, String correo, String telefono, LocalDate fechaNacimiento) throws NullPointerException, IllegalArgumentException {
         if (nombre==null){
             throw new NullPointerException("ERROR: El nombre de un huésped no puede ser nulo.");
         }
@@ -37,7 +37,7 @@ public class Huesped {
         }
         else {
             setNombre(nombre);
-            setDni(dni);
+            setDni(dni.toUpperCase());
             setCorreo(correo);
             setTelefono(telefono);
             setFechaNacimiento(fechaNacimiento);
@@ -45,7 +45,7 @@ public class Huesped {
     }
 
     // Constructor copia
-    public Huesped(Huesped huesped){
+    public Huesped(Huesped huesped) throws NullPointerException, IllegalArgumentException{
         if(huesped==null)
             throw new NullPointerException("ERROR: No es posible copiar un huésped nulo.");
         this.nombre=huesped.nombre;
@@ -87,10 +87,10 @@ public class Huesped {
         for (String palabra : palabras) {
             if (!palabra.isEmpty()) {
                 if (inicioNombre) {
-                    nombreFormateado = Character.toUpperCase(palabra.charAt(0))+palabra.substring(1).toLowerCase();
+                    nombreFormateado = Character.toUpperCase(palabra.charAt(0)) + palabra.substring(1).toLowerCase();
                     inicioNombre = false;
                 } else {
-                    nombreFormateado = nombreFormateado+" "+Character.toUpperCase(palabra.charAt(0))+palabra.substring(1).toLowerCase();
+                    nombreFormateado = nombreFormateado + " " + Character.toUpperCase(palabra.charAt(0)) + palabra.substring(1).toLowerCase();
                 }
             }
         }
@@ -123,7 +123,7 @@ public class Huesped {
         return correo;
     }
 
-    public void setCorreo(String correo) {
+    public void setCorreo(String correo) throws NullPointerException, IllegalArgumentException {
         if(correo==null)
             throw new NullPointerException("ERROR: El correo de un huésped no puede ser nulo.");
 
@@ -145,9 +145,8 @@ public class Huesped {
         return dni;
     }
 
-    private void setDni(String dni)
-    {
-        if (comprobarLetraDni(dni)){
+    private void setDni(String dni) throws IllegalArgumentException {
+        if (comprobarLetraDni(dni.toUpperCase())){
             this.dni = dni;
         }
         else {
@@ -155,7 +154,7 @@ public class Huesped {
         }
     }
 
-    private static boolean comprobarLetraDni(String dni){
+    private static boolean comprobarLetraDni(String dni) throws IllegalArgumentException {
         if (dni == null || dni.length() != 9) {
             throw new IllegalArgumentException("ERROR: El dni del huésped no tiene un formato válido.");
         }
@@ -176,7 +175,7 @@ public class Huesped {
         return fechaNacimiento;
     }
 
-    private void setFechaNacimiento(LocalDate fechaNacimiento) {
+    private void setFechaNacimiento(LocalDate fechaNacimiento) throws NullPointerException, IllegalArgumentException {
         if (fechaNacimiento==null){
             throw new NullPointerException("ERROR: La fecha de nacimiento no puede estar vacía.");
         }
@@ -184,7 +183,7 @@ public class Huesped {
             this.fechaNacimiento = fechaNacimiento;
         }
         else {
-            System.out.println("ERROR: La fecha de nacimiento no puede ser posterior a la actual.");
+            throw new IllegalArgumentException("ERROR: La fecha de nacimiento no puede ser posterior a la actual.");
         }
     }
 

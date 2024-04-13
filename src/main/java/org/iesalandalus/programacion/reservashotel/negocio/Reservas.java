@@ -12,7 +12,7 @@ public class Reservas {
     private int capacidad;
     private int tamano;
     private Reserva[] coleccionReservas;
-    public Reservas (int capacidad){
+    public Reservas (int capacidad) throws IllegalArgumentException{
         if (capacidad<1)
             throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
         coleccionReservas=new Reserva[capacidad];
@@ -43,7 +43,7 @@ public class Reservas {
         capacidad=coleccionReservas.length;
         return capacidad;
     }
-    public void insertar (Reserva reserva) throws OperationNotSupportedException{
+    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
         if (reserva==null){
             throw new NullPointerException("ERROR: No se puede insertar una reserva nula.");
         }
@@ -58,7 +58,7 @@ public class Reservas {
         }
     }
 
-    private int buscarIndice (Reserva reserva){
+    private int buscarIndice (Reserva reserva) throws NullPointerException {
         if (reserva==null){
             throw new NullPointerException("ERROR: No se puede buscar sin indicar una reserva.");
         }
@@ -72,7 +72,7 @@ public class Reservas {
         }
         return getCapacidad()+1;
     }
-    private Boolean tamanoSuperado (int indice){
+    private Boolean tamanoSuperado (int indice) throws IllegalArgumentException{
         if (indice<0){
             throw new IllegalArgumentException("ERROR: Indice tamaño incorrecto");
         }
@@ -81,7 +81,7 @@ public class Reservas {
         }
         return true;
     }
-    private Boolean capacidadSuperada (int indice){
+    private Boolean capacidadSuperada (int indice) throws IllegalArgumentException{
         if (indice<0){
             throw new IllegalArgumentException("ERROR: Indice capacidad incorrecto");
         }
@@ -90,7 +90,7 @@ public class Reservas {
         }
         return true;
     }
-    public Reserva buscar (Reserva reserva){
+    public Reserva buscar (Reserva reserva) throws NullPointerException {
         if (reserva==null){
             throw new NullPointerException("ERROR: No se puede buscar sin indicar una reserva.");
         }
@@ -101,7 +101,7 @@ public class Reservas {
         }
         return null;
     }
-    public void borrar (Reserva reserva) throws OperationNotSupportedException {
+    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
         if (reserva==null){
             throw new NullPointerException("ERROR: No se puede borrar una reserva nula.");
         }
@@ -120,7 +120,7 @@ public class Reservas {
             }
         }
     }
-    public Reserva[] getReservas (Huesped huesped){
+    public Reserva[] getReservas (Huesped huesped) throws NullPointerException{
         int j=0;
         tamano=getTamano();
         capacidad=getCapacidad();
@@ -134,9 +134,12 @@ public class Reservas {
                 j++;
             }
         }
+        if (j==0){
+            return null;
+        }
         return copiaProfundaHabitacionesHuesped;
     }
-    public Reserva[] getReservas (TipoHabitacion tipoHabitacion){
+    public Reserva[] getReservas (TipoHabitacion tipoHabitacion) throws NullPointerException{
         int j=0;
         tamano=getTamano();
         capacidad=getCapacidad();
@@ -150,9 +153,12 @@ public class Reservas {
                 j++;
             }
         }
+        if (j==0){
+            return null;
+        }
         return copiaProfundaHabitacionesHabitacion;
     }
-    public Reserva[] getReservasFuturas (Habitacion habitacion){
+    public Reserva[] getReservasFuturas (Habitacion habitacion) throws NullPointerException {
         int j=0;
         tamano=getTamano();
         capacidad=getCapacidad();

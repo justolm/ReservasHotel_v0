@@ -15,9 +15,9 @@ public class Habitacion {
     private double precio;
     private TipoHabitacion tipoHabitacion;
 
-    public Habitacion(int planta, int puerta, double precio){
+    public Habitacion(int planta, int puerta, double precio) throws IllegalArgumentException{
         if (planta<MIN_NUMERO_PLANTA||planta>MAX_NUMERO_PLANTA){
-            throw new IllegalArgumentException("ERROR: No se puede establecer como planta de una habitación un valor menor que 0 ni mayor que 2.");
+            throw new IllegalArgumentException("ERROR: No se puede establecer como planta de una habitación un valor menor que 1 ni mayor que 3.");
         }
         else if (puerta<MIN_NUMERO_PUERTA||puerta>MAX_NUMERO_PUERTA){
             throw new IllegalArgumentException("ERROR: No se puede establecer como puerta de una habitación un valor menor que 0 ni mayor que 14.");
@@ -34,9 +34,9 @@ public class Habitacion {
         }
     }
 
-    public Habitacion(int planta, int puerta, double precio, TipoHabitacion tipoHabitacion) {
+    public Habitacion(int planta, int puerta, double precio, TipoHabitacion tipoHabitacion) throws IllegalArgumentException, NullPointerException {
         if (planta<MIN_NUMERO_PLANTA||planta>MAX_NUMERO_PLANTA){
-            throw new IllegalArgumentException("ERROR: No se puede establecer como planta de una habitación un valor menor que 0 ni mayor que 2.");
+            throw new IllegalArgumentException("ERROR: No se puede establecer como planta de una habitación un valor menor que 1 ni mayor que 3.");
         }
         else if (puerta<MIN_NUMERO_PUERTA||puerta>MAX_NUMERO_PUERTA){
             throw new IllegalArgumentException("ERROR: No se puede establecer como puerta de una habitación un valor menor que 0 ni mayor que 14.");
@@ -56,7 +56,7 @@ public class Habitacion {
 
     }
 
-    public Habitacion(Habitacion habitacion) {
+    public Habitacion(Habitacion habitacion) throws NullPointerException {
         if(habitacion==null)
             throw new NullPointerException("ERROR: No es posible copiar una habitación nula.");
         this.identificador = habitacion.identificador;
@@ -73,7 +73,7 @@ public class Habitacion {
         this.identificador = String.valueOf(planta+""+puerta); // desconozco el valor a asignar
     }
 
-    private void setIdentificador(String identificador) {
+    private void setIdentificador(String identificador) throws NullPointerException {
         if(identificador==null)
             throw new NullPointerException("ERROR: Identificador nulo");
         this.identificador = identificador;
@@ -83,7 +83,7 @@ public class Habitacion {
         return planta;
     }
 
-    private void setPlanta(int planta) {
+    private void setPlanta(int planta) throws IllegalArgumentException {
         if(planta<MIN_NUMERO_PLANTA||planta>MAX_NUMERO_PLANTA)
             throw new IllegalArgumentException("ERROR: planta errónea");
         this.planta = planta;
@@ -93,7 +93,7 @@ public class Habitacion {
         return puerta;
     }
 
-    private void setPuerta(int puerta) {
+    private void setPuerta(int puerta) throws IllegalArgumentException {
         if (puerta<MIN_NUMERO_PUERTA||puerta>MAX_NUMERO_PUERTA){
             throw new IllegalArgumentException("ERROR: Puerta incorrecta.");
             }
@@ -104,7 +104,7 @@ public class Habitacion {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(double precio) throws IllegalArgumentException {
         if (precio<MIN_PRECIO_HABITACION||precio>MAX_PRECIO_HABITACION){
             throw new IllegalArgumentException("ERROR: Precio incorrecto.");
         }
@@ -115,7 +115,7 @@ public class Habitacion {
         return tipoHabitacion;
     }
 
-    public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
+    public void setTipoHabitacion(TipoHabitacion tipoHabitacion) throws NullPointerException {
         if (tipoHabitacion==null){
             throw new NullPointerException("ERROR: habitación nula.");
         }

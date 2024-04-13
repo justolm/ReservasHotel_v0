@@ -2,26 +2,34 @@ package org.iesalandalus.programacion.reservashotel.vista;
 
 import org.iesalandalus.programacion.reservashotel.dominio.*;
 import org.iesalandalus.programacion.utilidades.Entrada;
-
+import javax.naming.OperationNotSupportedException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Consola {
     private Consola(){}
-    public void mostrarMenu(){
-        System.out.println(Opcion.values().toString());
+
+    public static void mostrarMenu(){
+        System.out.println("* - * - MENÚ - * - *");
+        for (Opcion opcion1 : Opcion.values()){
+            System.out.print(opcion1);
+        }
     }
-    public Opcion elegirOpcion(){
+
+    public static Opcion elegirOpcion(){
         Opcion elegido;
         int elegidoInt, numOpciones;
         numOpciones = Opcion.values().length-1;
         do{
-            System.out.print("Elige la opción deseada (0 - "+numOpciones+"): ");
+            System.out.print("Elija la opción deseada (0 - "+numOpciones+"): ");
             elegidoInt=Entrada.entero();
         }while (elegidoInt<0 || elegidoInt>numOpciones);
-        elegido=Opcion.valueOf(String.valueOf(elegidoInt));
+        elegido = Opcion.values()[elegidoInt];
         return elegido;
     }
-    public Huesped leerHuesped(){
+
+    public static Huesped leerHuesped() throws NullPointerException, IllegalArgumentException {
         String nombre, dni, correo, telefono;
         LocalDate fechaNacimiento;
         System.out.println("Introduzca los datos del huésped. ");
@@ -33,49 +41,66 @@ public class Consola {
         correo=Entrada.cadena();
         System.out.print("Teléfono: ");
         telefono=Entrada.cadena();
-        System.out.print("Fecha de nacimiento: ");
+        System.out.print("Fecha de nacimiento (AAAA-MM-DD): ");
         fechaNacimiento= LocalDate.parse(Entrada.cadena());
         return (new Huesped(nombre, dni, correo, telefono, fechaNacimiento));
     }
-    public Huesped getHuespedPorDni(){
+
+    public static Huesped getHuespedPorDni() throws NullPointerException, IllegalArgumentException {
         String dni;
         System.out.println("Introduzca el DNI del huésped: ");
         dni=Entrada.cadena();
+        dni=dni.toUpperCase();
         if (dni==null){
             throw new NullPointerException("ERROR: No se puede buscar un DNI vacío.");
         }
-        return new Huesped("nombre",dni,"correo","950000000", LocalDate.of(2000,1,1));
+        return new Huesped("nombre",dni,"correo@falso.es","950000000", LocalDate.of(2000,1,1));
     }
-    public LocalDate leerFecha(String mensaje) {
-        LocalDate fecha;
+
+    public static LocalDate leerFecha(String mensaje) throws NullPointerException, IllegalArgumentException {
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern(Reserva.FORMATO_FECHA_RESERVA);
         if (mensaje == null) {
             throw new NullPointerException("ERROR: La fecha está vacía.");
         }
-        if (mensaje.matches(Huesped.FORMATO_FECHA)) {
-            fecha = LocalDate.parse(mensaje);
-        } else {
+        try {
+            return LocalDate.parse(mensaje, formatoFecha);
+        } catch (DateTimeException e){
             throw new IllegalArgumentException("ERROR: La fecha no tiene un formato válido.");
         }
-        return fecha;
     }
-    public Habitacion leerHabitacion(){
-        int planta=0, puerta=0, precio=0;
+
+    public static Habitacion leerHabitacion(){
+        int planta=1, puerta=0, precio=0;
         TipoHabitacion tipoHabitacion=null;
         Habitacion habitacion=null;
         System.out.println("Introduzca los datos de la habitación. ");
-        System.out.print("Planta (1-3): ");
-        planta=Entrada.entero();
-        System.out.print("Puerta (0-14): ");
-        puerta=Entrada.entero();
-        System.out.print("Introduzca el precio (" + Habitacion.MIN_PRECIO_HABITACION + " - " + Habitacion.MAX_PRECIO_HABITACION + "): ");
-        precio=Entrada.entero();
-        System.out.print("Elija el tipo de habitación: ");
-        System.out.println(TipoHabitacion.values().toString());
-        tipoHabitacion=TipoHabitacion.valueOf(Entrada.cadena());
+        do{
+            if (planta != 1){
+                System.out.print("La planta tiene que ser un número entre "+ Habitacion.MIN_NUMERO_PLANTA +" y " + Habitacion.MAX_NUMERO_PLANTA + ". ");
+            }
+            System.out.print("Planta ("+ Habitacion.MIN_NUMERO_PLANTA + '-' + Habitacion.MAX_NUMERO_PLANTA +"): ");
+            planta=Entrada.entero();
+        } while (planta<Habitacion.MIN_NUMERO_PLANTA || planta > Habitacion.MAX_NUMERO_PLANTA);
+        do{
+            if (puerta != 0){
+                System.out.print("La puerta tiene que ser un número entre "+ Habitacion.MIN_NUMERO_PUERTA +" y " + Habitacion.MAX_NUMERO_PUERTA + ". ");
+            }
+            System.out.print("Puerta (" + Habitacion.MIN_NUMERO_PUERTA + '-' + Habitacion.MAX_NUMERO_PUERTA + "): ");
+            puerta=Entrada.entero();
+        } while (puerta < Habitacion.MIN_NUMERO_PUERTA || puerta > Habitacion.MAX_NUMERO_PUERTA);
+        do {
+            if (precio != 0){
+                System.out.print("El precio tiene que ser un número entero entre " + Habitacion.MIN_PRECIO_HABITACION + " y " + Habitacion.MAX_PRECIO_HABITACION + ". ");
+            }
+            System.out.print("Introduzca el precio (" + Habitacion.MIN_PRECIO_HABITACION + " - " + Habitacion.MAX_PRECIO_HABITACION + "): ");
+            precio=Entrada.entero();
+        } while (precio < Habitacion.MIN_PRECIO_HABITACION || precio > Habitacion.MAX_PRECIO_HABITACION);
+        tipoHabitacion=leerTipoHabitacion();
         habitacion=new Habitacion(planta, puerta, precio, tipoHabitacion);
         return habitacion;
     }
-    public Habitacion leerHabitacionPorIdentificador(){
+
+    public static Habitacion leerHabitacionPorIdentificador() throws IllegalArgumentException {
         int planta, puerta;
         String identificador;
         Habitacion habitacion=null;
@@ -94,41 +119,65 @@ public class Consola {
         habitacion = new Habitacion(planta,puerta,40,TipoHabitacion.SIMPLE);
         return habitacion;
     }
-    public TipoHabitacion leerTipoHabitacion(){
+
+    public static TipoHabitacion leerTipoHabitacion() {
+        int tipoHab=0;
         TipoHabitacion tipoHabitacion;
-        System.out.print("Elija el tipo de habitación: ");
-        System.out.println(TipoHabitacion.values().toString());
-        tipoHabitacion=TipoHabitacion.valueOf(Entrada.cadena());
+        do {
+            if (tipoHab != 0){
+                System.out.print("Escriba la opción deseada (número entre 0 y " + TipoHabitacion.values().length);
+            }
+            System.out.println("Elija el tipo de habitación: ");
+            for (TipoHabitacion tipoHabitacion1 : TipoHabitacion.values()){
+                System.out.println(tipoHabitacion1.ordinal() + " - " + tipoHabitacion1.name() + " (máximo " + tipoHabitacion1.getNumeroMaximoPersonas() + " personas).");
+            }
+            tipoHab=Entrada.entero();
+        } while (tipoHab<0 || tipoHab >=TipoHabitacion.values().length);
+        tipoHabitacion=TipoHabitacion.values()[tipoHab];
         return tipoHabitacion;
     }
-    public Regimen leerRegimen(){
+
+    public static Regimen leerRegimen() {
         Regimen regimen;
-        System.out.println("Elija el régimen deseado: ");
-        System.out.println(Regimen.values().toString());
-        regimen=Regimen.valueOf(Entrada.cadena());
+        int numReg = 0;
+        do {
+            if (numReg != 0){
+                System.out.print("Escriba la opción deseada (número entre 0 y " + Regimen.values().length);
+            }
+            System.out.println("Elija el régimen deseado: ");
+            for (Regimen regimen1 : Regimen.values()){
+                System.out.println(regimen1.ordinal() + " - " + regimen1.name() + " .");
+            }
+            numReg=Entrada.entero();
+        } while (numReg<0 || numReg>Regimen.values().length);
+        regimen=Regimen.values()[numReg];
         return regimen;
     }
-    public Reserva leerReserva(){
+
+    public static Reserva leerReserva() throws IllegalArgumentException, NullPointerException, OperationNotSupportedException {
         Reserva reserva;
         Huesped huesped;
-        Habitacion habitacion;
         Regimen regimen;
         TipoHabitacion tipoHabitacion;
+        Habitacion habitacion;
         LocalDate fechaInicioReserva, fechaFinReserva;
-        int numeroPersonas,maximoPersonas=5;
-        huesped=new Huesped(leerHuesped());
-        habitacion=new Habitacion(leerHabitacion());
-        regimen= leerRegimen();
-        System.out.print("Introduzca la fecha de inicio de reserva (dd/MM/aa): ");
-        fechaInicioReserva=leerFecha(Entrada.cadena());
-        System.out.print("Introduzca la fecha de fin de reserva (dd/MM/aa): ");
-        fechaFinReserva=leerFecha(Entrada.cadena());
-        tipoHabitacion= habitacion.getTipoHabitacion();
-        maximoPersonas= tipoHabitacion.getNumeroMaximoPersonas();
+        String entrada;
+        int numeroPersonas,maximoPersonas;
+        huesped = new Huesped(getHuespedPorDni());
+        tipoHabitacion = leerTipoHabitacion();
+        habitacion= new Habitacion(3,14,50,tipoHabitacion);
+        maximoPersonas = tipoHabitacion.getNumeroMaximoPersonas();
         do{
             System.out.print("Introduzca el número de personas: ");
             numeroPersonas=Entrada.entero();
         }while (numeroPersonas<0 || numeroPersonas>maximoPersonas);
+        regimen = leerRegimen();
+        System.out.print("Introduzca la fecha de inicio de reserva (dd/mm/aa): ");
+        entrada = Entrada.cadena();
+        fechaInicioReserva = leerFecha(entrada);
+        System.out.print("Introduzca la fecha de fin de reserva (dd/mm/aa): ");
+        entrada = Entrada.cadena();
+        fechaFinReserva = leerFecha(entrada);
         reserva=new Reserva(huesped,habitacion,regimen,fechaInicioReserva,fechaFinReserva,numeroPersonas);
         return reserva;
     }
