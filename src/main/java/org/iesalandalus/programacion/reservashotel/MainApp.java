@@ -23,7 +23,6 @@ public class MainApp {
     private static Habitaciones habitaciones=new Habitaciones(CAPACIDAD);
     private static Reservas reservas=new Reservas(CAPACIDAD);
     private static Huespedes huespedes=new Huespedes(CAPACIDAD);
-    private static boolean inicializar=true; //borrar
 
     public static void main(String[] args) {
         try{
@@ -49,27 +48,6 @@ public class MainApp {
                 insertarHuesped();
                 break;
             case BUSCAR_HUESPED:
-                // borrar hasta el siguiente comentario
-
-                if (inicializar){
-                    Huesped huesped1 = new Huesped("Justo Lopez", "45596798b", "justo@gmail.com", "666619806", LocalDate.of(1980, 11, 19));
-                    Habitacion habitacion1 = new Habitacion(1,0,40,TipoHabitacion.SIMPLE);
-                    Habitacion habitacion2 = new Habitacion(2,2,60,TipoHabitacion.DOBLE);
-                    Habitacion habitacion3 = new Habitacion(3,13,80,TipoHabitacion.SUITE);
-                    Habitacion habitacion4 = new Habitacion(3,12,81,TipoHabitacion.SUITE);
-                    try {
-                        huespedes.insertar(huesped1);
-                        habitaciones.insertar(habitacion1);
-                        habitaciones.insertar(habitacion2);
-                        habitaciones.insertar(habitacion3);
-                        habitaciones.insertar(habitacion4);
-                    } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-                        throw new RuntimeException(e);
-                    }
-                    inicializar=false;
-                }
-
-                // borrar desde el anterior comentario.
                 buscarHuesped();
                 break;
             case BORRAR_HUESPED:
